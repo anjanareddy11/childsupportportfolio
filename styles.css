@@ -1025,3 +1025,25 @@ body{
   .node.decision .node__body{ position:static; width:auto; max-width:none; }
   .diamond{ width: 190px; height: 130px; justify-self:center; }
 }
+.hero-banner-img{
+  width:100%;
+  height:auto;
+  border-radius:20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  display:block;
+}
+.campaign-banner-img{
+  width:100%;
+  height:auto;
+  border-radius:18px;
+  display:block;
+}
+
+.work-img{
+  width:100%;
+  height:auto;
+  border-radius:16px;
+  border:1px solid #d7dee6;
+  background:#fff;
+  display:block;
+}
