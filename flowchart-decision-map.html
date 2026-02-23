@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Decision Map: Information Update Routing</title>
+  <link rel="stylesheet" href="./visuals.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="card-visual visual--flow" aria-labelledby="flow-title">
+      <header class="flow-head">
+        <h1 id="flow-title">Decision Map: Information Update Routing (Prototype)</h1>
+        <p>Designed to reduce misrouting and clarify next steps.</p>
+      </header>
+
+      <!-- Flowchart built on a CSS grid so alignment cannot drift -->
+      <div class="flowgrid" aria-label="Information update routing decision map">
+
+        <!-- Row 1: Main spine -->
+        <div class="node action r1c1">
+          <div class="node__title">Start</div>
+          <div class="node__body">Information update received</div>
+        </div>
+
+        <div class="node decision r1c2">
+          <div class="diamond" aria-hidden="true"></div>
+          <div class="node__body node__body--center">Is required<br/>information complete?</div>
+        </div>
+
+        <div class="node decision r1c3">
+          <div class="diamond" aria-hidden="true"></div>
+          <div class="node__body node__body--center">Are supporting<br/>documents required?</div>
+        </div>
+
+        <div class="node action strong r1c4">
+          <div class="node__body node__body--center">Verification and<br/>validation checks</div>
+        </div>
+
+        <div class="node decision r1c5">
+          <div class="diamond" aria-hidden="true"></div>
+          <div class="node__body node__body--center">Can the update<br/>be confirmed?</div>
+        </div>
+
+        <!-- Row 2: Branch actions -->
+        <div class="node action r2c2">
+          <div class="node__body node__body--center">Request missing<br/>information</div>
+          <div class="node__sub">Send a clear list of required items.</div>
+        </div>
+
+        <div class="node action r2c3">
+          <div class="node__body node__body--center">Verify supporting<br/>documents</div>
+          <div class="node__sub">Confirm clarity and completeness.</div>
+        </div>
+
+        <div class="lane r2c5">
+          <div class="node action strong">
+            <div class="node__body node__body--center">Update case record</div>
+          </div>
+          <div class="node action">
+            <div class="node__body node__body--center">Send status notification<br/>through available channel</div>
+          </div>
+          <div class="node action">
+            <div class="node__body node__body--center">Escalate for<br/>internal review</div>
+            <div class="node__sub">Route to the appropriate team.</div>
+            <div class="tag">Internal routing</div>
+          </div>
+        </div>
+
+        <!-- Row 3: End states -->
+        <div class="node end warn r3c2">
+          <div class="node__title">End</div>
+          <div class="node__body">Waiting on client response</div>
+        </div>
+
+        <div class="node end warn r3c5a">
+          <div class="node__title">End</div>
+          <div class="node__body">Review in progress</div>
+        </div>
+
+        <div class="node end ok r3c5b">
+          <div class="node__title">End</div>
+          <div class="node__body">Case updated</div>
+        </div>
+
+        <!-- Connectors (pure CSS lines anchored to grid cells) -->
+        <div class="edge e-start-d1" aria-hidden="true"></div>
+        <div class="edge e-d1-d2" aria-hidden="true"></div>
+        <div class="edge e-d2-verify" aria-hidden="true"></div>
+        <div class="edge e-verify-d3" aria-hidden="true"></div>
+
+        <div class="edge e-d1-no" aria-hidden="true"></div>
+        <div class="edge e-d1-no-end" aria-hidden="true"></div>
+
+        <div class="edge e-d2-yes" aria-hidden="true"></div>
+        <div class="edge e-d2-yes-to-verify" aria-hidden="true"></div>
+
+        <div class="edge e-d3-to-lane" aria-hidden="true"></div>
+        <div class="edge e-lane-to-review" aria-hidden="true"></div>
+        <div class="edge e-lane-to-updated" aria-hidden="true"></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend__title">Legend</div>
+        <div class="legend__row">
+          <span class="legend__swatch action"></span> Action
+        </div>
+        <div class="legend__row">
+          <span class="legend__swatch decision"></span> Decision
+        </div>
+        <div class="legend__row">
+          <span class="legend__swatch end"></span> End state
+        </div>
+      </div>
+
+      <footer class="flow-foot">Prototype work sample | Feb 2026</footer>
+    </section>
+  </main>
+</body>
+</html>
