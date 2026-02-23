@@ -1,16 +1,9 @@
-/* =========================
-visuals.css (FLOWCHART ONLY)
-Paste this into visuals.css or create a separate flowchart.css
-========================= */
-
-/* Tokens (safe if already defined elsewhere) */
 :root{
   --navy:#0B2E4F;
   --slate:#2F5D8A;
   --teal:#2AA198;
   --bg:#F5F7FA;
   --line:#D7DEE6;
-  --text:#1f2937;
   --muted:#5E6B7A;
   --white:#ffffff;
 
@@ -18,76 +11,77 @@ Paste this into visuals.css or create a separate flowchart.css
   --amber-border:#FFB347;
   --teal-soft:#E6F4F3;
 
-  --radius-sm:16px;
-  --shadow-soft: 0 10px 30px rgba(11,46,79,.10);
+  --shadow: 0 10px 30px rgba(11,46,79,.10);
+
+  /* IMPORTANT: lock predictable widths */
+  --col: 260px;      /* decision column width */
+  --col-start: 210px;/* start column width */
+  --col-verify: 230px;
+  --gap: 22px;
+
+  --radius: 16px;
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
 }
 
+*{ box-sizing:border-box; }
+body{ margin:0; font-family:var(--font); background:var(--bg); color:#1f2937; }
+
 .page{
-  padding: 28px 16px 40px;
+  padding: 26px 14px 44px;
   display:flex;
   justify-content:center;
-  background: var(--bg);
-  font-family: var(--font);
-  color: var(--text);
 }
 
-.card-visual{
-  width:min(1040px, 100%);
+.flowcard{
+  width: min(1120px, 100%);
 }
 
-.visual--flow .flow-head h1{
-  margin: 0 0 6px;
-  font-size: clamp(26px, 3.4vw, 44px);
-  letter-spacing: -0.02em;
-  color: var(--navy);
+.flow-head h1{
+  margin:0 0 6px;
   font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: clamp(26px, 3.2vw, 44px);
+  color: var(--navy);
 }
-
-.visual--flow .flow-head p{
-  margin: 0 0 18px;
+.flow-head p{
+  margin:0 0 18px;
   color: var(--muted);
   font-size: 16px;
 }
 
-/* --- Grid (clean) --- */
-.flowgrid.flowgrid--clean{
+/* ===== GRID LAYOUT (fixed desktop geometry) ===== */
+.flowgrid{
   position: relative;
-  padding: 14px 8px 28px;
   display:grid;
-  grid-template-columns: 1.05fr 1fr 1fr 1.05fr 1fr;
-  grid-template-rows: 170px 46px 190px 170px; /* label row included */
-  gap: 18px 18px;
+
+  grid-template-columns:
+    var(--col-start)
+    var(--col)
+    var(--col)
+    var(--col-verify)
+    var(--col);
+
+  grid-template-rows:
+    190px   /* row 1 */
+    190px   /* row 2 */
+    190px;  /* row 3 */
+
+  gap: var(--gap);
+  align-items:start;
+  justify-content:center; /* keeps whole diagram centered */
 }
 
-/* Placement */
-.flowgrid--clean .r1c1{ grid-column:1; grid-row:1; }
-.flowgrid--clean .r1c2{ grid-column:2; grid-row:1; }
-.flowgrid--clean .r1c3{ grid-column:3; grid-row:1; }
-.flowgrid--clean .r1c4{ grid-column:4; grid-row:1; }
-.flowgrid--clean .r1c5{ grid-column:5; grid-row:1; }
-
-.flowgrid--clean .r2c2{ grid-column:2; grid-row:3; }
-.flowgrid--clean .r2c3{ grid-column:3; grid-row:3; }
-.flowgrid--clean .r2c5{ grid-column:5; grid-row:3; }
-
-.flowgrid--clean .r3c2{ grid-column:2; grid-row:4; }
-.flowgrid--clean .r3c5stack{ grid-column:5; grid-row:4; align-self:stretch; }
-
-/* Nodes */
+/* ===== Nodes ===== */
 .node{
   background: var(--white);
   border: 2px solid var(--line);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-soft);
-  padding: 14px 14px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
   display:grid;
-  gap: 6px;
+  gap: 8px;
   align-content:center;
-}
-
-.node.strong{
-  border-color: rgba(47,93,138,.65);
+  min-height: 150px;
 }
 
 .node__title{
@@ -95,46 +89,50 @@ Paste this into visuals.css or create a separate flowchart.css
   color: var(--navy);
   font-size: 14px;
 }
-
-.node__body{
-  font-size: 18px;
-  line-height: 1.2;
-}
-
-.node__body--center{
-  text-align:center;
-  font-weight: 900;
-  color: var(--navy);
-}
-
+.node__body{ font-size: 18px; line-height:1.22; }
 .node__sub{
-  color: var(--muted);
   font-size: 14px;
-  line-height: 1.25;
+  color: var(--muted);
   text-align:center;
+  line-height:1.25;
 }
 
-/* Decision nodes */
-.node.decision{
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  padding: 0;
+.center{ text-align:center; }
+.strong-text{ font-weight: 900; color: var(--navy); }
+
+/* Start/Verify placement */
+.start{ grid-column:1; grid-row:1; align-self:start; }
+.verify{ grid-column:4; grid-row:1; align-self:start; }
+
+/* Action branches placement */
+.a1{ grid-column:2; grid-row:2; }
+.a2{ grid-column:3; grid-row:2; }
+
+/* End left */
+.end-left{ grid-column:2; grid-row:3; }
+
+/* Right stack */
+.end-right{ grid-column:5; grid-row:3; }
+.endstack{ display:grid; gap: 14px; align-content:start; }
+
+/* End styles */
+.node.end{ border-width: 3px; }
+.node.end.warn{ background: var(--amber-bg); border-color: var(--amber-border); }
+.node.end.ok{ background: var(--teal-soft); border-color: var(--teal); }
+
+/* ===== Decisions ===== */
+.decision{
+  grid-row: 1;
+  position: relative;
+  width: var(--col);
+  height: 190px;
   display:grid;
   place-items:center;
-  position:relative;
 }
 
-.node.decision .node__body{
-  position:absolute;
-  width: 78%;
-  max-width: 220px;
-  text-align:center;
-  font-weight: 900;
-  color: var(--navy);
-  font-size: 18px;
-  line-height: 1.12;
-}
+.d1{ grid-column:2; }
+.d2{ grid-column:3; }
+.d3{ grid-column:5; }
 
 .diamond{
   width: 210px;
@@ -143,102 +141,86 @@ Paste this into visuals.css or create a separate flowchart.css
   border: 5px solid var(--teal);
   transform: rotate(45deg);
   border-radius: 12px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow);
 }
 
-/* Yes/No labels row */
-.label{
-  grid-row:2;
-  align-self:center;
-  justify-self:center;
-  font-size: 14px;
+.decision__text{
+  position:absolute;
+  width: 78%;
+  max-width: 240px;
+  text-align:center;
   font-weight: 900;
-  color: var(--muted);
+  color: var(--navy);
+  font-size: 18px;
+  line-height: 1.12;
+}
+
+/* Chips anchored under the diamond, left/right */
+.chips{
+  position:absolute;
+  bottom: 6px;
+  width: 210px; /* same visual width as diamond footprint */
+  display:flex;
+  justify-content:space-between;
+  gap: 8px;
+}
+
+.chip{
+  font-size: 13px;
+  font-weight: 900;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(255,255,255,.75);
   border: 1px solid var(--line);
+  background: rgba(255,255,255,.85);
+  color: var(--muted);
 }
-.label.yes{ color: #1f6f66; }
-.label.no{ color: #6b7280; }
+.chip--yes{ color:#1f6f66; }
+.chip--no{ color:#6b7280; }
 
-.l-yes-1{ grid-column:2; justify-self:end; margin-right:-6px; }
-.l-no-1 { grid-column:2; justify-self:start; margin-left:-6px; }
+/* Stem anchored to exact center of the decision cell */
+.stem{
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  width:0;
+  border-left: 4px solid var(--slate);
+  opacity: .9;
+}
+.stem--down{
+  bottom: -24px;
+  height: 70px; /* connects to row 2 cleanly */
+}
 
-.l-yes-2{ grid-column:3; justify-self:end; margin-right:-6px; }
-.l-no-2 { grid-column:3; justify-self:start; margin-left:-6px; }
-
-.l-yes-3{ grid-column:5; justify-self:end; margin-right:-6px; }
-.l-no-3 { grid-column:5; justify-self:start; margin-left:-6px; }
-
-/* Branch spines: stable, no drifting lines */
-.branch{
+/* ===== Right yes lane ===== */
+.yeslane{
+  grid-column:5;
+  grid-row:2;
   position: relative;
-}
-.branch::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:-58px;              /* reaches from label row into the card */
-  transform:translateX(-50%);
-  width:0;
-  height:58px;
-  border-left: 4px solid var(--slate);
-  opacity:.9;
-}
-
-/* Right lane: its own spine */
-.lane{
-  display:grid;
-  grid-auto-rows: 1fr;
-  gap: 14px;
-}
-
-.lane--yes{
-  position: relative;
-  padding-top: 6px;
-}
-.lane--yes::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:-58px;
-  transform:translateX(-50%);
-  width:0;
-  height:58px;
-  border-left: 4px solid var(--slate);
-  opacity:.9;
-}
-.lane--yes::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top: 38px;
-  bottom: 22px;
-  transform:translateX(-50%);
-  width:0;
-  border-left: 4px solid var(--slate);
-  opacity:.55;
-}
-
-/* End states */
-.node.end{ border-width: 3px; }
-.node.end.warn{
-  background: var(--amber-bg);
-  border-color: var(--amber-border);
-}
-.node.end.ok{
-  background: var(--teal-soft);
-  border-color: var(--teal);
-}
-
-.endstack{
   display:grid;
   gap: 14px;
   align-content:start;
 }
 
-/* Tag chip */
+.yeslane .node{ min-height: 76px; }
+.yeslane .pill{
+  border-color: rgba(47,93,138,.55);
+  padding: 12px 14px;
+  min-height: 58px;
+}
+
+/* Lane spine aligned to center of the lane column */
+.lane-spine{
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  top: -18px;
+  bottom: 12px;
+  width:0;
+  border-left: 4px solid var(--slate);
+  opacity: .55;
+  pointer-events:none;
+}
+
 .tag{
   justify-self:center;
   margin-top: 4px;
@@ -250,95 +232,74 @@ Paste this into visuals.css or create a separate flowchart.css
   background: rgba(255,255,255,.7);
 }
 
-/* Legend (optional, but matches your screenshot) */
+/* ===== Legend ===== */
 .legend{
   margin-top: 16px;
   width: min(360px, 100%);
   background: var(--white);
   border: 2px solid var(--line);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 14px 16px;
 }
-
 .legend__title{
   font-weight: 900;
   color: var(--navy);
   margin-bottom: 10px;
 }
-
 .legend__row{
   display:flex;
   align-items:center;
   gap:10px;
-  color: var(--text);
+  color:#111827;
   font-size: 14px;
   margin: 8px 0;
 }
-
-.legend__swatch{
+.swatch{
   width: 32px;
   height: 18px;
   border-radius: 8px;
   border: 2px solid var(--line);
   background: var(--white);
 }
-.legend__swatch.decision{
-  width: 20px;
-  height: 20px;
+.swatch--decision{
+  width: 18px;
+  height: 18px;
   border-radius: 4px;
   transform: rotate(45deg);
   border: 3px solid var(--teal);
   background: rgba(234,242,250,.95);
 }
-.legend__swatch.end{
+.swatch--end{
   background: var(--teal-soft);
   border-color: var(--teal);
 }
 
-.flow-foot{
+.foot{
   margin-top: 10px;
   color: var(--muted);
   font-size: 13px;
 }
 
-/* Responsive: stack on mobile */
-@media (max-width: 880px){
-  .flowgrid.flowgrid--clean{
+/* ===== Mobile: stack to avoid weird overlaps ===== */
+@media (max-width: 980px){
+  .flowgrid{
     grid-template-columns: 1fr;
     grid-template-rows: auto;
+    justify-content:stretch;
   }
-  .label{ display:none; }
 
-  .flowgrid--clean .r1c1,
-  .flowgrid--clean .r1c2,
-  .flowgrid--clean .r1c3,
-  .flowgrid--clean .r1c4,
-  .flowgrid--clean .r1c5,
-  .flowgrid--clean .r2c2,
-  .flowgrid--clean .r2c3,
-  .flowgrid--clean .r2c5,
-  .flowgrid--clean .r3c2,
-  .flowgrid--clean .r3c5stack{
+  .start,.verify,.a1,.a2,.yeslane,.end-left,.end-right{ grid-column:1; grid-row:auto; }
+
+  .decision{
     grid-column:1;
     grid-row:auto;
+    width: 100%;
+    height: auto;
+    padding: 10px 0 0;
   }
 
-  .branch::before,
-  .lane--yes::before,
-  .lane--yes::after{
-    display:none;
-  }
-
-  .node.decision .node__body{
-    position:static;
-    width:auto;
-    max-width:none;
-  }
-
-  .diamond{
-    width: 190px;
-    height: 130px;
-    justify-self:center;
-  }
+  .decision__text{ position:static; width:auto; max-width:none; margin-top:-130px; }
+  .chips{ position:static; width: 210px; margin: 10px auto 0; }
+  .stem, .lane-spine{ display:none; }
 }
