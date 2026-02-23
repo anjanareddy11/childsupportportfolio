@@ -483,3 +483,11 @@ body{
   .node.decision .node__body{ position:static; width:auto; max-width:none; }
   .diamond{ width: 190px; height: 130px; justify-self:center; }
 }
+.work-figure { margin: 0; }
+.work-img{
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid #d7dee6;
+  background: #fff;
+}
